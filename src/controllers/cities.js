@@ -1,4 +1,4 @@
-import express from 'express';
+// Model
 import City from '../models/city.js';
 
 // CRUD
@@ -111,4 +111,4 @@ const Delete = async (req, res) => {
   }
 };
 
-export { Create, Read, ReadAll, Update, Delete };
+export default { Create, Read, ReadAll, Update, Delete };
