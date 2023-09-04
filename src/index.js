@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import routerCities from './routers/cities.js';
+import routerItineraries from './routers/itineraries.js';
 
 // App Startup
 console.log(`${new Date().toISOString()} | App (startup)`);
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.static('./public'));
 app.use(express.json());
 app.use('/api/cities', routerCities);
+app.use('/api/itineraries', routerItineraries);
 
 // DB
 // DB (connect)

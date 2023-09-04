@@ -11,6 +11,7 @@ const schema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    itineraries: [{ type: mongoose.Types.ObjectId, ref: 'Itinerary', require: true }],
     image: {
       type: String,
       require: true,
