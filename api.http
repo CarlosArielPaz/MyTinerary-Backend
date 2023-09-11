@@ -1,0 +1,14 @@
+
+# A
+
+GET http://localhost:5000/api/cities/64e5e98dc20221025a40dedf
+
+# API ➜ /cities
+
+GET http://localhost:5000/api/cities
+
+###
+
+POST http://localhost:5000/sign/up
+
+

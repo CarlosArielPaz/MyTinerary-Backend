@@ -8,7 +8,16 @@ const schema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    operator: {
+    surname: {
+      type: String,
+      require: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      require: true,
+    },
+    password: {
       type: String,
       require: true,
     },
@@ -16,23 +25,10 @@ const schema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    duration: {
+    country: {
       type: String,
       require: true,
     },
-    price: {
-      type: Number,
-      require: true,
-    },
-    likes: {
-      type: Number,
-      require: true,
-    },
-    hashtags: {
-      type: [String],
-      require: true,
-    },
-    _idCity: { type: mongoose.Types.ObjectId, ref: 'City', require: true },
   },
   {
     timestamps: true,
@@ -40,6 +36,6 @@ const schema = new mongoose.Schema(
 );
 
 // Model
-const model = mongoose.model('Itinerary', schema, 'itineraries');
+const model = mongoose.model('User', schema, 'users');
 
 export default model;

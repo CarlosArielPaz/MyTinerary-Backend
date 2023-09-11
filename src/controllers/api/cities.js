@@ -1,33 +1,37 @@
 // Model
-import Itinerary from '../models/itinerary.js';
+import City from '../../models/city.js';
 
 // CRUD
 // CRUD ➜ Create
 const Create = async (req, res) => {
   try {
     // Request (body)
-    const { name, operator, image, duration, price, hashtags, _idCity } = req.body;
+    const { name, country, image } = req.body;
 
     // Verify (data)
-    if (!name || !operator || !image || !duration || !price || !hashtags || !_idCity) {
+    if (!name || !country || !image) {
       // Response (400 ➜ Bad Request)
       return res.status(400).json({ message: 'Missing send data' });
     }
 
     // DB (model)
-    let itinerary = new Itinerary({
+/*     let city = new City({
       name,
-      operator,
+      country,
+      itineraries: [],
       image,
-      duration,
-      price,
-      likes: 0,
-      hashtags,
-      _idCity,
-    });
+    }); */
 
     // DB (save)
-    const doc = await itinerary.save();
+    //const doc = await city.save();
+
+    // DB (create)
+    const doc = await City.create({
+      name,
+      country,
+      itineraries: [],
+      image,
+    });
 
     // Response (201 ➜ Created)
     return res.status(201).json(doc);
@@ -44,8 +48,7 @@ const Read = async (req, res) => {
     const { id } = req.params;
 
     // DB (find)
-    //const doc = await Itinerary.findById(id, 'name operator image duration price likes hashtags _idCity');
-    const doc = await Itinerary.findById(id);
+    const doc = await City.findById(id, 'name country image itineraries').populate({ path: 'itineraries', select: 'name operator image duration price likes hashtags', options: { sort: { createdAt: 'asc' } } });
 
     // Response (200 ➜ OK)
     return res.status(200).json(doc);
@@ -55,26 +58,16 @@ const Read = async (req, res) => {
   }
 };
 
-const ReadAll = async (req, res) => {
+const Search = async (req, res) => {
   try {
-    // DB (find)
-    const docs = await Itinerary.find();
+    // Request (query)
+    const { search } = req.query;
 
-    // Response (200 ➜ OK)
-    return res.status(200).json(docs);
-  } catch (error) {
-    // Response (500 ➜ Internal Server Error)
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-const ReadCity = async (req, res) => {
-  try {
-    // Request (params)
-    const { id } = req.params;
+    // Regular expression
+    const re = new RegExp(search ? `^(${search})` : '', 'i');
 
     // DB (find)
-    const docs = await Itinerary.find({ _idCity: id }).sort({ name: 'asc' });
+    const docs = await City.find({ name: re }, 'name country image itineraries').sort({ name: 'asc' });
 
     // Response (200 ➜ OK)
     return res.status(200).json(docs);
@@ -91,16 +84,16 @@ const Update = async (req, res) => {
     const { id } = req.params;
 
     // Request (body)
-    const { name, operator, image, duration, price, likes, hashtags } = req.body;
+    const { name, country, image } = req.body;
 
     // Verify (data)
-    if (!name || !operator || !image || !duration || !price || !likes || !hashtags) {
+    if (!name || !country || !image) {
       // Response (400 ➜ Bad Request)
       return res.status(400).json({ message: 'Missing send data' });
     }
 
     // DB (update)
-    const doc = await Itinerary.findByIdAndUpdate(id, { name, operator, image, duration, price, likes, hashtags });
+    const doc = await City.findByIdAndUpdate(id, { name, country, image });
 
     // Response (200 ➜ OK)
     return res.status(200).json(doc);
@@ -117,7 +110,7 @@ const Delete = async (req, res) => {
     const { id } = req.params;
 
     // DB (delete)
-    const doc = await Itinerary.findByIdAndDelete(id);
+    const doc = await City.findByIdAndDelete(id);
 
     // Response (200 ➜ OK)
     return res.status(200).json(doc);
@@ -127,4 +120,4 @@ const Delete = async (req, res) => {
   }
 };
 
-export default { Create, Read, ReadAll, ReadCity, Update, Delete };
+export default { Create, Read, Search, Update, Delete };

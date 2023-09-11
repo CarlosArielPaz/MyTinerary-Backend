@@ -7,28 +7,30 @@ import mongoose from 'mongoose';
 // Express
 import express from 'express';
 import cors from 'cors';
-import routerCities from './routers/cities.js';
-import routerItineraries from './routers/itineraries.js';
+import routerSigns from './routers/signs.js';
+import routerAPICities from './routers/api/cities.js';
+import routerAPIItineraries from './routers/api/itineraries.js';
 
 // App Startup
+console.clear();
 console.log(`${new Date().toISOString()} | App (startup)`);
 
-// Express
+// App
 const app = express();
 
 app.use(cors());
 app.use(express.static('./public'));
 app.use(express.json());
-app.use('/api/cities', routerCities);
-app.use('/api/itineraries', routerItineraries);
+app.use('/sign', routerSigns);
+app.use('/api/cities', routerAPICities);
+app.use('/api/itineraries', routerAPIItineraries);
 
 // DB
 // DB (connect)
 mongoose
-  .connect(process.env.APP_DB_URL)
+  .connect(process.env.APP_DB_URI)
   .then(() => {
     // Console
-    //console.log(`${new Date().toISOString()} | DB ${process.env.APP_DB_HOST}:${process.env.APP_DB_PORT} (active)`);
     console.log(`${new Date().toISOString()} | DB (active)`);
 
     // HTTP (listen)
@@ -38,6 +40,5 @@ mongoose
   })
   .catch((error) => {
     // Console
-    //console.log(`${new Date().toISOString()} | DB ${process.env.APP_DB_HOST}:${process.env.APP_DB_PORT} (ERROR ➜ ${error.message})`);
     console.log(`${new Date().toISOString()} | DB (ERROR ➜ ${error.message})`);
   });
