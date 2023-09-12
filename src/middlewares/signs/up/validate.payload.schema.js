@@ -1,8 +1,7 @@
 // Joi
 import joi from 'joi';
 
-// Schema
-const schema = joi.object({
+const validatePayloadSchema = joi.object({
   name: joi.string().trim().min(3).max(30).required(),
 
   surname: joi.string().trim().min(3).max(30).required(),
@@ -16,4 +15,4 @@ const schema = joi.object({
   country: joi.string().min(0).max(50),
 });
 
-export default schema;
+export default validatePayloadSchema;

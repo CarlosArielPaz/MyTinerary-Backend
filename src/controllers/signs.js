@@ -1,3 +1,6 @@
+// JWT
+import jwt from 'jsonwebtoken';
+
 // Model
 import User from '../models/user.js';
 
@@ -5,37 +8,45 @@ import User from '../models/user.js';
 // Sign ➜ Up
 const Up = async (req, res) => {
   try {
-    // Body
+    // Request ➜ Body
     const body = req.body;
 
-    // DB (create)
+    // DB ➜ Create
     const doc = await User.create(body);
 
-    // Response (201 ➜ Created)
-    return res.status(201).json(doc);
+    // JWT ➜ Token (sign)
+    const token = jwt.sign({ _id: doc._id }, process.env.APP_HTTP_JWT_KEY, { algorithm: 'HS256', expiresIn: '1h' });
+
+    // Response ➜ Payload
+    const payload = {
+      name: doc.name,
+      surname: doc.surname,
+      email: doc.email,
+      token,
+    };
+
+    // Response ➜ Status (201 ➜ Created)
+    return res.status(201).json(payload);
   } catch (error) {
-    // Response (500 ➜ Internal Server Error)
+    // Response ➜ Status (500 ➜ Internal Server Error)
     return res.status(500).json({ error });
   }
 };
 
 // Sign ➜ In
 const In = async (req, res) => {
-  //console.log(req.body);
-  //console.log('-----------------------------------------------------------------');
-  //console.log(req);
-  //console.log(req.user);
-  //console.log(req.user.name);
-  //console.log(req.user.token);
+  // Request ➜ User
+  const user = req.user;
 
   // Payload
   const payload = {
-    name: req.user.name,
-    surname: req.user.surname,
-    token: req.user.token,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    token: user.token,
   };
 
-  // Response (200 ➜ OK)
+  // Response ➜ Status (200 ➜ OK)
   return res.status(200).json(payload);
 };
 
