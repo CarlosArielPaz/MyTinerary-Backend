@@ -8,9 +8,9 @@ const validatePayloadSchema = joi.object({
 
   email: joi.string().trim().email().required(),
 
-  password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+  password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,50}$')).required(),
 
-  image: joi.string().min(0).max(50),
+  image: joi.string().min(0).max(250),
 
   country: joi.string().min(0).max(50),
 });
