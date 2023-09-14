@@ -1,6 +1,3 @@
-// Controller
-import controller from '../controllers/signs.js';
-
 // Middleware
 // Middleware ➜ Sign Up
 import validatePayloadSignUp from '../middlewares/signs/up/validate.payload.js';
@@ -12,16 +9,12 @@ import validatePayloadSignIn from '../middlewares/signs/in/validate.payload.js';
 import verifyUserValidSignIn from '../middlewares/signs/in/verify.user.valid.js';
 import generateTokenJWTSignIn from '../middlewares/signs/in/generate.token.jwt.js';
 
+// Middleware ➜ Sign In Token
+
 // Middleware ➜ Sign Out
 
-
-
-//import validatePayloadSignIn from '../middlewares/validators/signs/in.js';
-
-// Middleware ➜ Hash
-
-// Middleware ➜ JWT
-//import signTokenJWT from '../middlewares/jwt/sign.js';
+// Controller
+import controller from '../controllers/signs.js';
 
 // Express
 import { Router } from 'express';
@@ -34,5 +27,9 @@ router.post('/up', validatePayloadSignUp, verifyUserExistsSignUp, generateHashPa
 
 // Router ➜ Sign In
 router.post('/in', validatePayloadSignIn, verifyUserValidSignIn, generateTokenJWTSignIn, controller.In);
+router.post('/in/token', controller.InToken);
+
+// Router ➜ Sign Out
+router.post('/out', controller.Out);
 
 export default router;

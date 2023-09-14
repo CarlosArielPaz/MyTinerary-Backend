@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 
 // Sign
-// Sign ➜ Up
+// Sign Up
 const Up = async (req, res) => {
   try {
     // Request ➜ Body
@@ -33,7 +33,7 @@ const Up = async (req, res) => {
   }
 };
 
-// Sign ➜ In
+// Sign In
 const In = async (req, res) => {
   // Request ➜ User
   const user = req.user;
@@ -50,4 +50,9 @@ const In = async (req, res) => {
   return res.status(200).json(payload);
 };
 
-export default { Up, In };
+const InToken = (req, res) => {};
+
+// Sign Out
+const Out = (req, res) => {};
+
+export default { Up, In, InToken, Out };

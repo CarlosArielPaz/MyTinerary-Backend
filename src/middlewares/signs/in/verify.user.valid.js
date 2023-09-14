@@ -11,15 +11,15 @@ const verifyUserValid = async (req, res, next) => {
 
     // DB ➜ User (find)
     const doc = await User.findOne({ email }).select('_id name surname email password');
-    
+
     if (!doc) {
       // Response ➜ Status (401 ➜ Unauthorized)
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    
+
     // User
     const user = JSON.parse(JSON.stringify(doc));
-    
+
     // Hash ➜ Compare
     const match = await bcrypt.compare(password, user.password);
 
